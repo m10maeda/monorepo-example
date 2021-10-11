@@ -1,12 +1,23 @@
 {
-  "name": "frontend",
+  "name": "@monorepo-example/frontend",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://github.com/m10maeda/monorepo-example/tree/main/packages/frontend#readme",
+  "bugs": {
+    "url": "https://github.com/m10maeda/monorepo-example/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/m10maeda/monorepo-example.git",
+    "directory": "packages/frontend"
+  },
+  "license": "MIT",
+  "author": "m10maeda <mio.maeda.kari@gmail.com>",
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "next dev",
+    "lint": "next lint",
+    "start": "next start"
   },
   "dependencies": {
     "next": "11.1.2",
