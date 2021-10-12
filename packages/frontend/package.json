@@ -1,0 +1,59 @@
+{
+  "name": "@monorepo-example/frontend",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "https://github.com/m10maeda/monorepo-example/tree/main/packages/frontend#readme",
+  "bugs": {
+    "url": "https://github.com/m10maeda/monorepo-example/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/m10maeda/monorepo-example.git",
+    "directory": "packages/frontend"
+  },
+  "license": "MIT",
+  "author": "m10maeda <mio.maeda.kari@gmail.com>",
+  "scripts": {
+    "precommit": "lint-staged",
+    "build": "next build",
+    "dev": "next dev",
+    "lint": "next lint",
+    "start": "next start",
+    "test": "jest"
+  },
+  "lint-staged": {
+    "*.{json,md}": "prettier --write",
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.{css,scss}": [
+      "prettier --write",
+      "stylelint --fix"
+    ]
+  },
+  "dependencies": {
+    "next": "11.1.2",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.3.0",
+    "@types/jest": "^27.0.2",
+    "@types/react": "17.0.27",
+    "babel-jest": "^27.2.5",
+    "eslint": "^7.30.0",
+    "eslint-config-next": "11.1.2",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^27.2.5",
+    "lint-staged": "^11.2.3",
+    "stylelint": "^13.13.1",
+    "stylelint-config-prettier": "^8.0.2",
+    "stylelint-config-recess-order": "^2.5.0",
+    "stylelint-config-standard": "^22.0.0",
+    "stylelint-order": "^4.1.0",
+    "typescript": "4.4.3"
+  }
+}
