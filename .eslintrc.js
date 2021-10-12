@@ -4,6 +4,8 @@ const config = {
   extends: [
     'airbnb-base',
     'plugin:promise/recommended',
+    'plugin:jest/recommended',
+    'plugin:jest/style',
     'plugin:eslint-comments/recommended',
     'prettier',
   ],
