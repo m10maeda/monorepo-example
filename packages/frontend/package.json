@@ -14,11 +14,23 @@
   "license": "MIT",
   "author": "m10maeda <mio.maeda.kari@gmail.com>",
   "scripts": {
+    "precommit": "lint-staged",
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
     "test": "jest"
+  },
+  "lint-staged": {
+    "*.{json,md}": "prettier --write",
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.{css,scss}": [
+      "prettier --write",
+      "stylelint --fix"
+    ]
   },
   "dependencies": {
     "next": "11.1.2",
@@ -36,6 +48,7 @@
     "eslint-config-next": "11.1.2",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.2.5",
+    "lint-staged": "^11.2.3",
     "stylelint": "^13.13.1",
     "stylelint-config-prettier": "^8.0.2",
     "stylelint-config-recess-order": "^2.5.0",
