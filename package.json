@@ -17,6 +17,7 @@
     "packages/*"
   ],
   "scripts": {
+    "dev": "lerna run dev --parallel --stream",
     "prepare": "husky install"
   },
   "lint-staged": {
