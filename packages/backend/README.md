@@ -36,13 +36,10 @@ $ npm install
 
 ```bash
 # development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
+$ npm run dev
 
 # production mode
-$ npm run start:prod
+$ npm run start
 ```
 
 ## Test
@@ -55,7 +52,7 @@ $ npm run test
 $ npm run test:e2e
 
 # test coverage
-$ npm run test:cov
+$ npm run test --coverage
 ```
 
 ## Support
