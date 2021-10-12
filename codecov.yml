@@ -1,0 +1,28 @@
+coverage:
+  status:
+    project:
+      default: off
+
+      frontend:
+        flags:
+          - frontend
+
+      backend:
+        flags:
+          - backend
+
+flags:
+  frontend:
+    paths:
+      - packages/frontend
+    carryforward: false
+
+  backend:
+    paths:
+      - packages/backend
+    carryforward: true
+
+comment:
+  layout: 'reach,diff,flags,files,footer'
+  behavior: default
+  require_changes: no

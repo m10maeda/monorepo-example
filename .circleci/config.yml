@@ -9,6 +9,15 @@ workflows:
   setup-workflow:
     jobs:
       - path-filtering/filter:
+          # 比較ブランチの指定
+          # デフォルト（`main`）と別のブランチにする場合は指定する
+          # base-revision: develop
+
+          # パイプライン用の設定ファイルの場所
+          # デフォルト（`.circleci/continue_config.yml`）と別のファイル名などの場合は指定する
+          config-path: .circleci/continue_config.yml
+
           mapping: |
-            packages/backend/.*  package backend
-            packages/frontend/.* package frontend
+            ^(?!packages\/).*    root     true
+            packages/backend/.*  backend  true
+            packages/frontend/.* frontend true

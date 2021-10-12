@@ -1,23 +1,133 @@
 version: 2.1
 
+orbs:
+  codecov: codecov/codecov@3.1.1
+
+executors:
+  default:
+    docker:
+      - image: circleci/node:16.10
+
 parameters:
-  package:
-    default: 'root'
-    type: enum
-    enum: ['root', 'backend', 'frontend']
+  root:
+    default: false
+    type: boolean
+
+  backend:
+    default: false
+    type: boolean
+
+  frontend:
+    default: false
+    type: boolean
+
+commands:
+  resolve-dependencies:
+    steps:
+      - restore_cache:
+          keys:
+            - v1-yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v1-yarn-packages-{{ .Branch }}-
+            - v1-yarn-packages-
+
+      - run:
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
+
+      - save_cache:
+          key: v1-yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
 
 jobs:
-  foo:
+  lint:
     executor: default
 
+    parameters:
+      package:
+        type: string
+        default: ''
+
     steps:
+      - checkout
+
+      - resolve-dependencies
+
       - run:
-          name: List files << pipeline.parameters.package >>
-          command: ls -l
+          name: Run ESLint
+          command: |
+            <<# parameters.package >>cd packages/<< parameters.package >><</ parameters.package >>
+            yarn lint:eslint --format junit --output-file ./reports/junit/eslint-results.xml
+
+      - store_test_results:
+          path: ./reports/junit
+
+  test:
+    executor: default
+
+    parameters:
+      package:
+        type: string
+        default: ''
+
+    steps:
+      - checkout
+
+      - resolve-dependencies
+
+      - run:
+          name: Run Test
+          command: |
+            <<# parameters.package >>cd packages/<< parameters.package >><</ parameters.package >>
+            yarn test --ci --coverage --testResultsProcessor=jest-junit
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ./reports/junit
+            JEST_JUNIT_OUTPUT_NAME: test-results.xml
+
+      - store_test_results:
+          path: ./<<# parameters.package >>packages/<< parameters.package >>/<</ parameters.package >>reports/junit
+
+      - store_artifacts:
+          path: ./<<# parameters.package >>packages/<< parameters.package >>/<</ parameters.package >>coverage
+
+      - codecov/upload:
+          file: ./<<# parameters.package >>packages/<< parameters.package >>/<</ parameters.package >>coverage/lcov.info
+          flags: << parameters.package >>
 
 workflows:
   version: 2
 
-  main:
+  root:
+    when: << pipeline.parameters.root >>
+
     jobs:
-      - foo
+      - lint:
+          name: lint root
+
+  backend:
+    when: << pipeline.parameters.backend >>
+
+    jobs:
+      - lint:
+          name: lint backend
+          package: 'backend'
+
+      - test:
+          name: test backend
+          requires:
+            - lint backend
+          package: 'backend'
+
+  frontend:
+    when: << pipeline.parameters.frontend >>
+
+    jobs:
+      - lint:
+          name: lint frontend
+          package: 'frontend'
+
+      - test:
+          name: test frontend
+          requires:
+            - lint frontend
+          package: 'frontend'
