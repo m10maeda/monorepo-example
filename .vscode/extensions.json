@@ -2,6 +2,7 @@
   "recommendations": [
     "EditorConfig.editorconfig",
     "esbenp.prettier-vscode",
+    "redhat.vscode-yaml",
     "dbaeumer.vscode-eslint",
     "stylelint.vscode-stylelint"
   ]

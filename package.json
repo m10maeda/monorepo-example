@@ -18,6 +18,7 @@
   ],
   "scripts": {
     "dev": "lerna run dev --parallel --stream",
+    "postinstall": "lerna bootstrap",
     "prepare": "husky install"
   },
   "lint-staged": {
