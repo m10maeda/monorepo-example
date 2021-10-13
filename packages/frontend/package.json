@@ -53,6 +53,7 @@
     "eslint-config-next": "11.1.2",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.2.5",
+    "jest-junit": "^13.0.0",
     "lint-staged": "^11.2.3",
     "stylelint": "^13.13.1",
     "stylelint-config-prettier": "^8.0.2",
