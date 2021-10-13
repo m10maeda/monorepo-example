@@ -8,3 +8,7 @@ test('renders learn Next.js link', () => {
   const element = screen.getByText(/Next.js!/i);
   expect(element).toBeInTheDocument();
 });
+
+it('failure test', () => {
+  expect(true).toBeFalsy();
+});
