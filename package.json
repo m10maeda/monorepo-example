@@ -18,6 +18,7 @@
   ],
   "scripts": {
     "dev": "lerna run dev --parallel --stream",
+    "lint:eslint": "eslint . --ext .js,.ts --ignore-pattern \"packages/\"",
     "postinstall": "lerna bootstrap",
     "prepare": "husky install"
   },

@@ -17,7 +17,9 @@
     "precommit": "lint-staged",
     "build": "next build",
     "dev": "next dev",
-    "lint": "next lint",
+    "lint": "yarn lint:eslint && yarn lint:stylelint",
+    "lint:eslint": "eslint . --ext .js,.ts",
+    "lint:stylelint": "stylelint \"**/*.css\"",
     "start": "next start",
     "test": "jest"
   },
