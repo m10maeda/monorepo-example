@@ -94,6 +94,18 @@ jobs:
           file: ./<<# parameters.package >>packages/<< parameters.package >>/<</ parameters.package >>coverage/lcov.info
           flags: << parameters.package >>
 
+  build:
+    executor: default
+
+    parameters:
+      package:
+        type: string
+
+    steps:
+      - run:
+          name: Run Build
+          command: echo "build << parameters.package >>"
+
 workflows:
   version: 2
 
@@ -118,6 +130,12 @@ workflows:
             - lint backend
           package: 'backend'
 
+      - build:
+          name: build backend
+          requires:
+            - test backend
+          package: 'backend'
+
   frontend:
     when: << pipeline.parameters.frontend >>
 
@@ -130,4 +148,10 @@ workflows:
           name: test frontend
           requires:
             - lint frontend
+          package: 'frontend'
+
+      - build:
+          name: build frontend
+          requires:
+            - test frontend
           package: 'frontend'
