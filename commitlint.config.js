@@ -7,3 +7,5 @@ const config = {
 };
 
 module.exports = config;
+
+const foo = 'foo';
