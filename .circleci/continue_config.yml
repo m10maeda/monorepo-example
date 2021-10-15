@@ -9,20 +9,16 @@ executors:
       - image: circleci/node:16.10
 
 parameters:
-  root:
+  changed-backend:
     default: false
     type: boolean
 
-  backend:
-    default: false
-    type: boolean
-
-  frontend:
+  changed-frontend:
     default: false
     type: boolean
 
 commands:
-  resolve-dependencies:
+  prepare-dependencies:
     steps:
       - restore_cache:
           keys:
@@ -48,16 +44,29 @@ jobs:
         type: string
         default: ''
 
+      with-stylelint:
+        type: boolean
+        default: false
+
     steps:
       - checkout
 
-      - resolve-dependencies
+      - prepare-dependencies
 
       - run:
           name: Run ESLint
           command: |
             <<# parameters.package >>cd packages/<< parameters.package >><</ parameters.package >>
             yarn lint:eslint --format junit --output-file ./reports/junit/eslint-results.xml
+
+      - when:
+          condition: << parameters.with-stylelint >>
+          steps:
+            - run:
+                name: Run stylelint
+                command: |
+                  <<# parameters.package >>cd packages/<< parameters.package >><</ parameters.package >>
+                  yarn stylelint
 
       - store_test_results:
           path: ./reports/junit
@@ -73,7 +82,7 @@ jobs:
     steps:
       - checkout
 
-      - resolve-dependencies
+      - prepare-dependencies
 
       - run:
           name: Run Test
@@ -99,7 +108,8 @@ jobs:
 
     parameters:
       package:
-        type: string
+        type: enum
+        enum: ['backend', 'frontend']
 
     steps:
       - run:
@@ -110,14 +120,17 @@ workflows:
   version: 2
 
   root:
-    when: << pipeline.parameters.root >>
+    unless:
+      and:
+        - << pipeline.parameters.changed-backend >>
+        - << pipeline.parameters.changed-frontend >>
 
     jobs:
       - lint:
           name: lint root
 
   backend:
-    when: << pipeline.parameters.backend >>
+    when: << pipeline.parameters.changed-backend >>
 
     jobs:
       - lint:
@@ -137,12 +150,13 @@ workflows:
           package: 'backend'
 
   frontend:
-    when: << pipeline.parameters.frontend >>
+    when: << pipeline.parameters.changed-frontend >>
 
     jobs:
       - lint:
           name: lint frontend
           package: 'frontend'
+          with-stylelint: true
 
       - test:
           name: test frontend

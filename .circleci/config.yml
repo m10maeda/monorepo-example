@@ -15,9 +15,8 @@ workflows:
 
           # パイプライン用の設定ファイルの場所
           # デフォルト（`.circleci/continue_config.yml`）と別のファイル名などの場合は指定する
-          config-path: .circleci/continue_config.yml
+          # config-path: .circleci/continue_config.yml
 
           mapping: |
-            ^(?!packages\/).*    root     true
-            packages/backend/.*  backend  true
-            packages/frontend/.* frontend true
+            packages/backend/.*  changed-backend  true
+            packages/frontend/.* changed-frontend true
