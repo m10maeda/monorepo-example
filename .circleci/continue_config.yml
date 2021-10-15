@@ -69,7 +69,7 @@ jobs:
                   yarn stylelint
 
       - store_test_results:
-          path: ./reports/junit
+          path: <<# parameters.package >>packages/<< parameters.package >><</ parameters.package >>/reports/junit
 
   test:
     executor: default
