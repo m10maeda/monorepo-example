@@ -57,7 +57,7 @@ jobs:
           name: Run ESLint
           command: |
             <<# parameters.package >>cd packages/<< parameters.package >><</ parameters.package >>
-            yarn lint:eslint --format junit --output-file ./reports/junit/eslint-results.xml
+            yarn eslint --format junit --output-file ./reports/junit/eslint-results.xml
 
       - when:
           condition: << parameters.with-stylelint >>

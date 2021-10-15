@@ -18,8 +18,8 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "yarn lint:eslint && yarn lint:stylelint",
-    "lint:eslint": "eslint . --ext .js,.ts",
-    "lint:stylelint": "stylelint \"**/*.css\"",
+    "eslint": "eslint . --ext .js,.ts",
+    "stylelint": "stylelint \"**/*.css\"",
     "start": "next start",
     "test": "jest"
   },
