@@ -18,5 +18,6 @@ workflows:
           # config-path: .circleci/continue_config.yml
 
           mapping: |
+            ^(?!packages\/).*    changed-root     true
             packages/backend/.*  changed-backend  true
             packages/frontend/.* changed-frontend true

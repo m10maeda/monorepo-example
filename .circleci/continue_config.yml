@@ -9,6 +9,10 @@ executors:
       - image: circleci/node:16.10
 
 parameters:
+  changed-root:
+    default: false
+    type: boolean
+
   changed-backend:
     default: false
     type: boolean
@@ -120,10 +124,7 @@ workflows:
   version: 2
 
   root:
-    unless:
-      and:
-        - << pipeline.parameters.changed-backend >>
-        - << pipeline.parameters.changed-frontend >>
+    when: << pipeline.parameters.changed-root >>
 
     jobs:
       - lint:
